@@ -11,16 +11,10 @@ namespace PHApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TokenController : ControllerBase
+    public class TokenController(ApplicationDbContext context, UserManager<IdentityUser> userManager) : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
-        private readonly UserManager<IdentityUser> _userManager;
-
-        public TokenController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
-        {
-            _context = context;
-            _userManager = userManager;
-        }
+        private readonly ApplicationDbContext _context = context;
+        private readonly UserManager<IdentityUser> _userManager = userManager;
 
         [Route("/token")]
         [HttpPost]
@@ -39,7 +33,10 @@ namespace PHApi.Controllers
         private async Task<bool> IsValidUserNameAndPassword(string username, string password)
         {
             var user = await _userManager.FindByEmailAsync(username);
-            return await _userManager.CheckPasswordAsync(user, password);
+
+            if(user == null) await Task.FromResult(false);
+
+            return await _userManager.CheckPasswordAsync(user!, password);
         }
 
         private async Task<dynamic> GenerateToken(string username)
@@ -47,10 +44,10 @@ namespace PHApi.Controllers
             var user = await _userManager.FindByEmailAsync(username);
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, username),
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.Nbf, new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds().ToString()),
-                new Claim(JwtRegisteredClaimNames.Exp, new DateTimeOffset(DateTime.Now.AddDays(1)).ToUnixTimeSeconds().ToString()),
+                new(ClaimTypes.Name, username),
+                new(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new(JwtRegisteredClaimNames.Nbf, new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds().ToString()),
+                new(JwtRegisteredClaimNames.Exp, new DateTimeOffset(DateTime.Now.AddDays(1)).ToUnixTimeSeconds().ToString()),
             };
 
             var token = new JwtSecurityToken(
