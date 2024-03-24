@@ -65,4 +65,15 @@
   <ItemGroup>
     <None Include="PublishLocations\PHData.publish.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Tables\User.sql" />
+    <Build Include="dbo\Tables\Project.sql" />
+    <Build Include="dbo\Tables\ProjectRole.sql" />
+    <Build Include="dbo\Tables\ProjectParticipants.sql" />
+    <Build Include="dbo\Tables\Task.sql" />
+    <Build Include="dbo\Tables\TaskState.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="PHData.refactorlog" />
+  </ItemGroup>
 </Project>
