@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using PHDesktopUI.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,12 @@ namespace PHDesktopUI.ViewModels
 {
     public class LoginViewModel : Screen
     {
-        private string? _userName;
+        public LoginViewModel(IAPIHelper aPIHelper)
+        {
+            _apiHelper = aPIHelper;
+        }
+
+        private string? _userName = "artur@mail.ru";
 		public string UserName
         {
 			get 
@@ -28,7 +34,9 @@ namespace PHDesktopUI.ViewModels
 			}
 		}
 
-        private string? _password;
+        private string? _password = "2897qlepS!";
+        private readonly IAPIHelper _apiHelper;
+
         public string? Password
         {
             get 
@@ -60,9 +68,17 @@ namespace PHDesktopUI.ViewModels
             }
 		}
 
-		public void LogIn(string userName, string password)
+		public async Task LogIn(string userName, string password)
 		{
-			Console.WriteLine();
-		}
+            try
+            {
+                var result = await _apiHelper.Authenticate(userName, password);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+           
+        }
     }
 }
