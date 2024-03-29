@@ -9,9 +9,7 @@ using System.Text;
 
 namespace PHApi.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class TokenController(ApplicationDbContext context, UserManager<IdentityUser> userManager) : ControllerBase
+    public class TokenController(ApplicationDbContext context, UserManager<IdentityUser> userManager) : Controller
     {
         private readonly ApplicationDbContext _context = context;
         private readonly UserManager<IdentityUser> _userManager = userManager;
