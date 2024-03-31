@@ -36,12 +36,12 @@ namespace PHDesktopUI.Helpers
 
         public async Task<AuthenticatedUser> Authenticate(string username, string password)
         {
-            var data = new FormUrlEncodedContent(new[]
-            {
+            var data = new FormUrlEncodedContent(
+            [
                //new KeyValuePair<string, string>("grant_type", "password"),
                 new KeyValuePair<string, string>("username", username),
                 new KeyValuePair<string, string>("password", password)
-            });
+            ]);
 
             using (HttpResponseMessage response = await _apiClient.PostAsync("/Token", data))
             {
