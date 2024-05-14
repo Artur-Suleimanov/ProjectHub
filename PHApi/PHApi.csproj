@@ -27,4 +27,10 @@
     <ProjectReference Include="..\PHDataManager.Library\PHDataManager.Library.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

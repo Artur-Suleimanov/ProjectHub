@@ -1,6 +1,7 @@
 ﻿using Caliburn.Micro;
 using Microsoft.Extensions.Configuration;
 using PHDesktopUI.Helpers;
+using PHDesktopUI.Librery.Models;
 using PHDesktopUI.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -41,6 +42,7 @@ namespace PHDesktopUI
             _container
                 .Singleton<IWindowManager, WindowManager>()
                 .Singleton<IEventAggregator, EventAggregator>()
+                .Singleton<ILoggedInUserModel, LoggedInUserModel>()
                 .Singleton<IAPIHelper, APIHelper>();
 
             _container.RegisterInstance(typeof(IConfiguration), "IConfiguration", AddConfiguration());

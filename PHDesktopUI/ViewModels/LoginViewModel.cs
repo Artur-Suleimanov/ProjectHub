@@ -105,7 +105,7 @@ namespace PHDesktopUI.ViewModels
                 var result = await _apiHelper.Authenticate(_userName!, _password!);
 
                 // Capture more information about the user:
-
+                await _apiHelper.GetLoggedInUserInfo(result.Access_Token);
             }
             catch (Exception ex)
             {

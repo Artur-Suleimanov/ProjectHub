@@ -21,7 +21,7 @@ namespace PHDataManager.Library.DataAccess
         }
         public string GetConnectionString(string name)
         {
-            var connectionString = _config.GetConnectionString("DefaultConnection");
+            var connectionString = _config.GetConnectionString(name);
 
             if (string.IsNullOrWhiteSpace(connectionString))
                 throw new Exception("ConnectionString is Empty.");
