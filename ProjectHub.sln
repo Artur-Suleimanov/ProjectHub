@@ -7,7 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PHApi", "PHApi\PHApi.csproj
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "PHData", "PHData\PHData.sqlproj", "{4FA8601F-18CA-4D31-9CB7-D837108DA61B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PHDesktopUI", "PHDesktopUI\PHDesktopUI.csproj", "{6833AA7A-23F2-4049-8528-AB057CDF6B21}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PHDesktopUI", "PHDesktopUI\PHDesktopUI.csproj", "{6833AA7A-23F2-4049-8528-AB057CDF6B21}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PHDataManager.Library", "PHDataManager.Library\PHDataManager.Library.csproj", "{48357B81-2A5C-4D56-92DA-0B348813EB21}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PHDesktopUI.Librery", "PHDesktopUI.Librery\PHDesktopUI.Librery.csproj", "{DCA6BB98-65D2-4FC5-92A8-5BEE4E428EB3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +33,14 @@ Global
 		{6833AA7A-23F2-4049-8528-AB057CDF6B21}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6833AA7A-23F2-4049-8528-AB057CDF6B21}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6833AA7A-23F2-4049-8528-AB057CDF6B21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48357B81-2A5C-4D56-92DA-0B348813EB21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48357B81-2A5C-4D56-92DA-0B348813EB21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48357B81-2A5C-4D56-92DA-0B348813EB21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48357B81-2A5C-4D56-92DA-0B348813EB21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCA6BB98-65D2-4FC5-92A8-5BEE4E428EB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCA6BB98-65D2-4FC5-92A8-5BEE4E428EB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCA6BB98-65D2-4FC5-92A8-5BEE4E428EB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCA6BB98-65D2-4FC5-92A8-5BEE4E428EB3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

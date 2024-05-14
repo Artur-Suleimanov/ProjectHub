@@ -5,6 +5,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using PHDataManager.Library.DataAccess;
+using PHDataManager.Library.DataAccess.Interfaces;
 
 namespace PHApi
 {
@@ -23,6 +25,11 @@ namespace PHApi
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddControllersWithViews();
+
+            // Personal services:
+            builder.Services.AddTransient<ISqlDataAccess, SqlDataAccess>();
+            builder.Services.AddTransient<IUserData, UserData>();
+
             builder.Services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = "JwtBearer";
