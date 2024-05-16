@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using PHDesktopUI.EventModels;
 using PHDesktopUI.Helpers;
 using System;
 using System.Collections.Generic;
@@ -10,9 +11,11 @@ namespace PHDesktopUI.ViewModels
 {
     public class LoginViewModel : Screen
     {
-        public LoginViewModel(IAPIHelper aPIHelper)
+        public LoginViewModel(IAPIHelper aPIHelper,
+                              IEventAggregator events)
         {
             _apiHelper = aPIHelper;
+            _events = events;
         }
 
         private string? _userName = "artur@mail.ru";
@@ -36,6 +39,7 @@ namespace PHDesktopUI.ViewModels
 
         private string? _password = "2897qlepS!";
         private readonly IAPIHelper _apiHelper;
+        private readonly IEventAggregator _events;
 
         public string? Password
         {
@@ -106,6 +110,8 @@ namespace PHDesktopUI.ViewModels
 
                 // Capture more information about the user:
                 await _apiHelper.GetLoggedInUserInfo(result.Access_Token);
+
+                await _events.PublishOnUIThreadAsync(new LogOnEvent());
             }
             catch (Exception ex)
             {

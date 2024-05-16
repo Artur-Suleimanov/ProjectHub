@@ -32,7 +32,7 @@ namespace PHDesktopUI.ViewModels
             set 
             { 
                 _projectName = value;
-                NotifyOfPropertyChange(() => Projects);
+                NotifyOfPropertyChange(() => ProjectName);
             }
         }
 
@@ -44,7 +44,7 @@ namespace PHDesktopUI.ViewModels
             set 
             {
                 _projectDescription = value;
-                NotifyOfPropertyChange(() => Projects);
+                NotifyOfPropertyChange(() => ProjectDescription);
             }
         }
 
@@ -56,6 +56,7 @@ namespace PHDesktopUI.ViewModels
             set 
             { 
                 _tasks = value; 
+                NotifyOfPropertyChange(() => Tasks);
             }
         }
 
