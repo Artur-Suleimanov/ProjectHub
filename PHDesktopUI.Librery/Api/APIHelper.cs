@@ -17,6 +17,8 @@ namespace PHDesktopUI.Helpers
         private readonly ILoggedInUserModel _loggedInUser;
         private HttpClient _apiClient;
 
+        public HttpClient ApiClient { get => _apiClient; }
+
         public APIHelper(IConfiguration config,
                          ILoggedInUserModel loggedInUserModel)
         {
@@ -86,28 +88,5 @@ namespace PHDesktopUI.Helpers
                 }
             }
         }
-
-        //public async Task<AuthenticatedUser> Authenticate(string username, string password)
-        //{
-        //    var data = new FormUrlEncodedContent(new[]
-        //    {
-        //        //new KeyValuePair<string, string>("grant_type", "password"),
-        //        new KeyValuePair<string, string>("username", username),
-        //        new KeyValuePair<string, string>("password", password)
-        //    });
-
-        //    using (HttpResponseMessage response = await _apiClient.PostAsync("https://localhost:7059/token", data))
-        //    {
-        //        if (response.IsSuccessStatusCode)
-        //        {
-        //            var result = await response.Content.ReadAsAsync<AuthenticatedUser>();
-        //            return result;
-        //        }
-        //        else
-        //        {
-        //            throw new Exception(response.ReasonPhrase);
-        //        }
-        //    }
-        //}
     }
 }

@@ -1,4 +1,6 @@
 ﻿using Caliburn.Micro;
+using PHDesktopUI.Librery.Api;
+using PHDesktopUI.Librery.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,11 +12,28 @@ namespace PHDesktopUI.ViewModels
 {
     public class HomeViewModel : Screen
     {
+        private readonly IProjectEndpoint _projectEndpoint;
+
         // Sales Page Creation - A TimCo Retail Manager Video
+        public HomeViewModel(IProjectEndpoint projectEndpoint)
+        {
+            _projectEndpoint = projectEndpoint;
+        }
 
-        private BindingList<string> _projects;
+        protected override async void OnViewLoaded(object view)
+        {
+            await LoadProjects();
+        }
 
-        public BindingList<string> Projects
+        private async Task LoadProjects()
+        {
+            var projects = await _projectEndpoint.GetAll();
+            Projects = new BindingList<ProjectModel>(projects);
+        }
+
+        private BindingList<ProjectModel> _projects;
+
+        public BindingList<ProjectModel> Projects
         {
             get { return _projects; }
             set
@@ -23,6 +42,22 @@ namespace PHDesktopUI.ViewModels
                 NotifyOfPropertyChange(() => Projects);
             }
         }
+
+        private ProjectModel _selectedProject;
+
+        public ProjectModel SelectedProject
+        {
+            get { return _selectedProject; }
+            set 
+            { 
+                _selectedProject = value;
+                ProjectName = _selectedProject.Name;
+                ProjectDescription = _selectedProject.Description;
+                Tasks = new BindingList<TaskModel>(_selectedProject.Tasks);
+                NotifyOfPropertyChange(() => SelectedProject);
+            }
+        }
+
 
         private string _projectName;
 
@@ -48,9 +83,10 @@ namespace PHDesktopUI.ViewModels
             }
         }
 
-        private BindingList<string> _tasks;
+        private BindingList<TaskModel> _tasks;
+        
 
-        public BindingList<string> Tasks
+        public BindingList<TaskModel> Tasks
         {
             get { return _tasks; }
             set 

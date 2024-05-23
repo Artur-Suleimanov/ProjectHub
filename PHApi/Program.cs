@@ -29,6 +29,7 @@ namespace PHApi
             // Personal services:
             builder.Services.AddTransient<ISqlDataAccess, SqlDataAccess>();
             builder.Services.AddTransient<IUserData, UserData>();
+            builder.Services.AddTransient<IProjectData, ProjectData>();
 
             builder.Services.AddAuthentication(options =>
             {
