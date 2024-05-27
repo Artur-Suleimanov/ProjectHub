@@ -27,5 +27,21 @@ namespace PHDesktopUI.Librery.Api
                 }
             }
         }
+
+        public async Task CreateProject(CreateProjectModel createProjectModel)
+        {
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.PostAsJsonAsync("/api/Project/CreateProject", createProjectModel))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    await response.Content.ReadAsAsync<List<ProjectModel>>();
+                    
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
     }
 }

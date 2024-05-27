@@ -23,5 +23,12 @@ namespace PHDataManager.Library.DataAccess
 
             return output;
         }
+
+        public ProjectModel CreateNewProject(string userId, string name, string description)
+        {
+            var newProjectId = _sql.LoadData<ProjectModel, dynamic>("dbo.spCreateProject", new { UserId = userId, ProjectName = name, ProjectDescription = description }, "PHData");
+
+            return newProjectId[0];
+        }
     }
 }

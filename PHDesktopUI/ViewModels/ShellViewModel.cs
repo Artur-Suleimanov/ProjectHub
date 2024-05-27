@@ -9,7 +9,7 @@ using PHDesktopUI.Librery.Models;
 
 namespace PHDesktopUI.ViewModels
 {
-    public class ShellViewModel : Conductor<object>, IHandle<LogOnEvent>
+    public class ShellViewModel : Conductor<object>, IHandle<LogOnEvent>, IHandle<CreateProjectEvent>
     {
         private readonly IEventAggregator _events;
         private readonly ILoggedInUserModel _user;
@@ -32,6 +32,11 @@ namespace PHDesktopUI.ViewModels
             await ActivateItemAsync(IoC.Get<HomeViewModel>(), cancellationToken);
             //NotifyOfPropertyChange(() => IsLoggedIn);
             //NotifyOfPropertyChange(() => IsLoggedOut);
+        }
+
+        public async Task HandleAsync(CreateProjectEvent message, CancellationToken cancellationToken)
+        {
+            await ActivateItemAsync(IoC.Get<CreateProjectViewModel>(), cancellationToken);
         }
     }
 }

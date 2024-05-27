@@ -31,5 +31,14 @@ namespace PHApi.Controllers
 
             return _projectData.GetProjectsByUserId(userId);
         }
+
+        [HttpPost]
+        [Route("CreateProject")]
+        public void CreateProject(CreateProjectModel createProjectModel)
+        {
+            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var newProject = _projectData.CreateNewProject(userId, createProjectModel.Name, createProjectModel.Description);
+        }
     }
 }

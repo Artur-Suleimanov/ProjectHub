@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using PHDesktopUI.EventModels;
 using PHDesktopUI.Librery.Api;
 using PHDesktopUI.Librery.Models;
 using System;
@@ -13,11 +14,14 @@ namespace PHDesktopUI.ViewModels
     public class HomeViewModel : Screen
     {
         private readonly IProjectEndpoint _projectEndpoint;
+        private readonly IEventAggregator _events;
 
         // Sales Page Creation - A TimCo Retail Manager Video
-        public HomeViewModel(IProjectEndpoint projectEndpoint)
+        public HomeViewModel(IProjectEndpoint projectEndpoint,
+                             IEventAggregator events)
         {
             _projectEndpoint = projectEndpoint;
+            _events = events;
         }
 
         protected override async void OnViewLoaded(object view)
@@ -96,5 +100,9 @@ namespace PHDesktopUI.ViewModels
             }
         }
 
+        public async Task CreateProject()
+        {
+            await _events.PublishOnUIThreadAsync(new CreateProjectEvent());
+        }
     }
 }
