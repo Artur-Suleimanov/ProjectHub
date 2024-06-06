@@ -14,5 +14,6 @@ namespace PHDesktopUI.Librery.Models
         public string UserId { get; set; }
         public DateTime CreateDate { get; set; }
         public List<TaskModel> Tasks { get; set; } = new List<TaskModel>();
+        public List<UserModel> Users { get; set; }
     }
 }

@@ -59,6 +59,7 @@ namespace PHDesktopUI.ViewModels
                 ProjectDescription = _selectedProject.Description;
                 Tasks = new BindingList<TaskModel>(_selectedProject.Tasks);
                 NotifyOfPropertyChange(() => SelectedProject);
+                NotifyOfPropertyChange(() => CanOpenProject);
             }
         }
 
@@ -103,6 +104,28 @@ namespace PHDesktopUI.ViewModels
         public async Task CreateProject()
         {
             await _events.PublishOnUIThreadAsync(new CreateProjectEvent());
+        }
+
+        public bool CanOpenProject 
+        {
+            get
+            {
+                bool output = false;
+
+                if (_selectedProject != null)
+                {
+                    output = true;
+                }
+
+                return output;
+            }
+        }
+
+        public async Task OpenProject()
+        {
+            var ope = new OpenProjectEvent();
+            ope.ProjectModel = _selectedProject;
+            await _events.PublishOnUIThreadAsync(ope);
         }
     }
 }

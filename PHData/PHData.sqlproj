@@ -76,6 +76,7 @@
     <Build Include="dbo\Stored Procedures\spGetProjectsWhereUserIsInitiator.sql" />
     <Build Include="dbo\Stored Procedures\spGetProjectTasks.sql" />
     <Build Include="dbo\Stored Procedures\spCreateProject.sql" />
+    <Build Include="dbo\Stored Procedures\spProjectParticipants.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="PHData.refactorlog" />

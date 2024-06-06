@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using PHDesktopUI.EventModels;
 using PHDesktopUI.Librery.Api;
 using PHDesktopUI.Librery.Models;
 using System;
@@ -13,9 +14,11 @@ namespace PHDesktopUI.ViewModels
     {
 		private string? _projectName;
 
-        public CreateProjectViewModel(IProjectEndpoint projectEndpoint)
+        public CreateProjectViewModel(IProjectEndpoint projectEndpoint,
+                                      IEventAggregator events)
         {
             _projectEndpoint = projectEndpoint;
+            _events = events;
         }
 
         public string ProjectName
@@ -31,6 +34,7 @@ namespace PHDesktopUI.ViewModels
 
 		private string? _projectDescription;
         private readonly IProjectEndpoint _projectEndpoint;
+        private readonly IEventAggregator _events;
 
         public string ProjectDescription
         {
@@ -60,6 +64,12 @@ namespace PHDesktopUI.ViewModels
 		{
             await _projectEndpoint.CreateProject(new CreateProjectModel(ProjectName, ProjectDescription));
 
+            await _events.PublishOnUIThreadAsync(new ShowHomePageEvent());
+        }
+
+        public async Task Back()
+        {
+            await _events.PublishOnUIThreadAsync(new ShowHomePageEvent());
         }
     }
 }

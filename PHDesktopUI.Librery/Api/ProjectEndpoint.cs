@@ -35,7 +35,22 @@ namespace PHDesktopUI.Librery.Api
                 if (response.IsSuccessStatusCode)
                 {
                     await response.Content.ReadAsAsync<List<ProjectModel>>();
-                    
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
+        public async Task<List<UserModel>> GetProjectUsers(int id)
+        {
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync($"/api/Project/GetProjectUsers/{id}"))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsAsync<List<UserModel>>();
+                    return result;
                 }
                 else
                 {

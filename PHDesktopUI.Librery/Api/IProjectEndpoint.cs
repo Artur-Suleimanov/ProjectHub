@@ -6,5 +6,6 @@ namespace PHDesktopUI.Librery.Api
     {
         Task CreateProject(CreateProjectModel createProjectModel);
         Task<List<ProjectModel>> GetAll();
+        Task<List<UserModel>> GetProjectUsers(int id);
     }
 }

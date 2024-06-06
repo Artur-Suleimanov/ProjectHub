@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PHDataManager.Library.Models
+﻿namespace PHDataManager.Library.Models
 {
     public class TaskModel
     {
@@ -13,8 +7,10 @@ namespace PHDataManager.Library.Models
         public string? Description { get; set; }
         public string? InitiatorId { get; set; }
         public string? ExecutorId { get; set; }
+        public UserModel? Executor { get; set; }
         public int? ProjectId { get; set; }
         public int? StateId { get; set; }
+        public string? State {  get; set; }
         public DateTime? CreateDate { get; set; }
     }
 }

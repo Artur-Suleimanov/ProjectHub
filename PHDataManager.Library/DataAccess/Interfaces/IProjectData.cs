@@ -6,5 +6,6 @@ namespace PHDataManager.Library.DataAccess.Interfaces
     {
         ProjectModel CreateNewProject(string userId, string name, string description);
         List<ProjectModel> GetProjectsByUserId(string id);
+        List<UserModel> GetProjectUsers(int id);
     }
 }
