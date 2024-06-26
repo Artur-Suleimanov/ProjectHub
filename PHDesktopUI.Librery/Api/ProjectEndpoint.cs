@@ -58,5 +58,21 @@ namespace PHDesktopUI.Librery.Api
                 }
             }
         }
+
+        public async Task AddUserInProject(int projectId, string userId, int roleId)
+        {
+            var data = new FormUrlEncodedContent(
+            [
+                new KeyValuePair<string, string>("projectId", projectId.ToString()),
+                new KeyValuePair<string, string>("userId", userId),
+                new KeyValuePair<string, string>("roleId", roleId.ToString())
+            ]);
+
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.PostAsync($"/api/Project/AddUserInProject", data))
+            {
+                if(response.IsSuccessStatusCode == false)
+                    throw new Exception(response.ReasonPhrase);
+            }
+        }
     }
 }

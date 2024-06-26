@@ -23,5 +23,19 @@ namespace PHDataManager.Library.DataAccess
 
             return output;
         }
+
+        public List<UserModel> GetUserByEmail(string email)
+        {
+            var output = _sql.LoadData<UserModel, dynamic>("spGetUserByEmail", new { email }, "PHData");
+
+            return output;
+        }
+
+        public List<int> CheckUserProjectMembership(string userId, int projectId)
+        {
+            var output = _sql.LoadData<int, dynamic>("spCheckUserProjectMembership", new { userId, projectId }, "PHData");
+
+            return output;
+        }
     }
 }

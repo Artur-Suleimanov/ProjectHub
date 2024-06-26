@@ -7,11 +7,12 @@ using Caliburn.Micro;
 using PHDesktopUI.EventModels;
 using PHDesktopUI.Librery.Api;
 using PHDesktopUI.Librery.Models;
+using PHDesktopUI.Views;
 
 namespace PHDesktopUI.ViewModels
 {
     public class ShellViewModel : Conductor<object>, IHandle<LogOnEvent>, IHandle<CreateProjectEvent>, 
-        IHandle<ShowHomePageEvent>, IHandle<OpenProjectEvent>
+        IHandle<ShowHomePageEvent>, IHandle<OpenProjectEvent>, IHandle<AddUserInProjectEvent>
     {
         private readonly IEventAggregator _events;
         private readonly ILoggedInUserModel _user;
@@ -57,6 +58,13 @@ namespace PHDesktopUI.ViewModels
             pvm.Tasks = message.ProjectModel.Tasks;
             pvm.Users = await _projectEndpoint.GetProjectUsers(message.ProjectModel.Id);
             await ActivateItemAsync(pvm, cancellationToken);
+        }
+
+        public async Task HandleAsync(AddUserInProjectEvent message, CancellationToken cancellationToken)
+        {
+            var auipv = IoC.Get<AddUserInProjectViewModel>();
+            auipv.Project = message.Project;
+            await ActivateItemAsync(auipv, cancellationToken);
         }
     }
 }

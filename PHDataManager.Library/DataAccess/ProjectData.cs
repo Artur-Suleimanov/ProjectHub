@@ -50,5 +50,10 @@ namespace PHDataManager.Library.DataAccess
 
             return output;
         }
+
+        public void AddUserInProject(int projectId, string userId, int roleId)
+        {
+            _sql.SaveData("spAddUserInProject", new { projectId, userId, roleId }, "PHData");
+        }
     }
 }

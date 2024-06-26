@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using PHDesktopUI.EventModels;
 using PHDesktopUI.Librery.Models;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,11 @@ namespace PHDesktopUI.ViewModels
 {
     public class ProjectViewModel : Screen
     {
+        public ProjectViewModel(IEventAggregator events)
+        {
+            _events = events;
+        }
+
         public ProjectModel ProjectModel { get; set; }
 
 		private List<TaskModel> _tasks;
@@ -37,8 +43,9 @@ namespace PHDesktopUI.ViewModels
 		}
 
 		private List<UserModel> _users;
+        private readonly IEventAggregator _events;
 
-		public List<UserModel> Users
+        public List<UserModel> Users
 		{
 			get { return _users; }
 			set 
@@ -48,5 +55,12 @@ namespace PHDesktopUI.ViewModels
             }
 		}
 
-	}
+		public async Task AddUser()
+		{
+			var auipe = new AddUserInProjectEvent();
+			auipe.Project = ProjectModel;
+
+            await _events.PublishOnUIThreadAsync(auipe);
+        }
+    }
 }

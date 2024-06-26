@@ -41,7 +41,8 @@ namespace PHDesktopUI
         protected override void Configure()
         {
             _container.Instance(_container)
-                .PerRequest<IProjectEndpoint, ProjectEndpoint>();
+                .PerRequest<IProjectEndpoint, ProjectEndpoint>()
+                .PerRequest<IUserEndpoint, UserEndpoint>();
 
             _container
                 .Singleton<IWindowManager, WindowManager>()

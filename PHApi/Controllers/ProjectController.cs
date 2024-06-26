@@ -52,5 +52,19 @@ namespace PHApi.Controllers
         {
             return _projectData.GetProjectUsers(id);
         }
+
+        [HttpPost]
+        [Route("AddUserInProject")]
+        public void Run()
+        {
+            var form = Request.Form;
+
+            // Получаем отдельные данные:
+            int projectId = int.Parse(form["projectId"]!);
+            string? userId = form["userId"];
+            int roleId = int.Parse(form["roleId"]!);
+
+            _projectData.AddUserInProject(projectId, userId!, roleId);
+        }
     }
 }

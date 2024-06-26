@@ -77,6 +77,9 @@
     <Build Include="dbo\Stored Procedures\spGetProjectTasks.sql" />
     <Build Include="dbo\Stored Procedures\spCreateProject.sql" />
     <Build Include="dbo\Stored Procedures\spProjectParticipants.sql" />
+    <Build Include="dbo\Stored Procedures\spAddUserInProject.sql" />
+    <Build Include="dbo\Stored Procedures\spGetUserByEmail.sql" />
+    <Build Include="dbo\Stored Procedures\spCheckUserProjectMembership.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="PHData.refactorlog" />
