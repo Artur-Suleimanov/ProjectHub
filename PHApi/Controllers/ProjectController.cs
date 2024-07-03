@@ -66,5 +66,23 @@ namespace PHApi.Controllers
 
             _projectData.AddUserInProject(projectId, userId!, roleId);
         }
+
+        [HttpDelete]
+        [Route("DeleteUserFromProject/{projectId}_{olduserId}_{newUserId}")]
+        public void DeleteUserFromProject(int projectId, string olduserId, string newUserId)
+        {
+            // Обновление исполнителя в задачах, где удаляемый пользователь является исполнителем:
+            _projectData.TransferTasksToNewExecuter(projectId, olduserId, newUserId);
+
+            // Удаление пользователя из проекта:
+            _projectData.DeleteUserInProject(projectId, olduserId);
+        }
+
+        [HttpGet]
+        [Route("GetProjectTasks/{projectId}")]
+        public List<TaskModel> GetProjectTasks(int projectId)
+        {
+            return _projectData.GetProjectTasks(projectId);
+        }
     }
 }

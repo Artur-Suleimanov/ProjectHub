@@ -74,5 +74,32 @@ namespace PHDesktopUI.Librery.Api
                     throw new Exception(response.ReasonPhrase);
             }
         }
+
+        public async Task DeleteUserFromProject(int projectId, string oldUserId, string newUserId)
+        {
+            using(HttpResponseMessage response = await _apiHelper.ApiClient.DeleteAsync($"/api/Project/DeleteUserFromProject/{projectId}_{oldUserId}_{newUserId}"))
+            {
+                if(response.IsSuccessStatusCode == false)
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
+        public async Task<List<TaskModel>> GetProjectTasks(int projectId)
+        {
+            using(HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync($"/api/Project/GetProjectTasks/{projectId}"))
+            {
+                if(response.IsSuccessStatusCode == true)
+                {
+                    var result = await response.Content.ReadAsAsync<List<TaskModel>>();
+                    return result;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
     }
 }

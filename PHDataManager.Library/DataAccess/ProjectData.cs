@@ -21,20 +21,34 @@ namespace PHDataManager.Library.DataAccess
 
             foreach (var project in output)
             {
-                // Получение задач в проекте:
-                project.Tasks = _sql.LoadData<TaskModel, dynamic>("dbo.spGetProjectTasks", new { Id = project.Id }, "PHData");
+                project.Tasks = GetProjectTasks((int)project.Id!);
 
                 if (project.Tasks == null)
                     continue;
 
-                // Получение исполнителей задач:
-                foreach (var task in project.Tasks)
-                {
-                    task.Executor = _userData.GetUserById(task.ExecutorId)[0];
-                }
+                GetTasksExecuters(project.Tasks);
             }
 
             return output;
+        }
+
+        private void GetTasksExecuters(List<TaskModel> tasks)
+        {
+            // Получение исполнителей задач:
+            foreach (var task in tasks)
+            {
+                task.Executor = _userData.GetUserById(task.ExecutorId)[0];
+            }
+        }
+
+        public List<TaskModel> GetProjectTasks(int projectId)
+        {
+            // Получение задач в проекте:
+            List<TaskModel> tasks = _sql.LoadData<TaskModel, dynamic>("dbo.spGetProjectTasks", new { Id = projectId }, "PHData");
+
+            GetTasksExecuters(tasks);
+
+            return tasks;
         }
 
         public ProjectModel CreateNewProject(string userId, string name, string description)
@@ -54,6 +68,16 @@ namespace PHDataManager.Library.DataAccess
         public void AddUserInProject(int projectId, string userId, int roleId)
         {
             _sql.SaveData("spAddUserInProject", new { projectId, userId, roleId }, "PHData");
+        }
+
+        public void DeleteUserInProject(int projectId, string userId) 
+        {
+            _sql.SaveData("spDeleteUserFromProject", new { projectId, userId }, "PHData");
+        }
+
+        public void TransferTasksToNewExecuter(int projectId, string oldUserId, string newUserId)
+        {
+            _sql.SaveData("spTransferTasksToNewExecuter", new { ProjectId = projectId, OldExecuterId = oldUserId, NewExecuterId = newUserId }, "PHData");
         }
     }
 }

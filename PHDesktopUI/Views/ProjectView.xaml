@@ -27,7 +27,6 @@
                 <DataTemplate>
                     <TextBlock Text="{Binding FullName}"/>
                 </DataTemplate>
-
             </ListBox.ItemTemplate>
         </ListBox>
         <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal"
