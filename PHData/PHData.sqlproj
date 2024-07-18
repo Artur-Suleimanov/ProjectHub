@@ -82,6 +82,7 @@
     <Build Include="dbo\Stored Procedures\spCheckUserProjectMembership.sql" />
     <Build Include="dbo\Stored Procedures\spTransferTasksToNewExecuter.sql" />
     <Build Include="dbo\Stored Procedures\spDeleteUserFromProject.sql" />
+    <Build Include="dbo\Stored Procedures\spCreateTask.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="PHData.refactorlog" />

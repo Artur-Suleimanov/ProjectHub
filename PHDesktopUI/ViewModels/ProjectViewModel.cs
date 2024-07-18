@@ -64,8 +64,10 @@ namespace PHDesktopUI.ViewModels
 
 		public async Task AddUser()
 		{
-			var auipe = new AddUserInProjectEvent();
-			auipe.Project = ProjectModel;
+            var auipe = new AddUserInProjectEvent
+            {
+                Project = ProjectModel
+            };
 
             await _events.PublishOnUIThreadAsync(auipe);
         }
@@ -104,6 +106,16 @@ namespace PHDesktopUI.ViewModels
             await _projectEndpoint.DeleteUserFromProject(ProjectModel.Id, SelectedUser.Id, _loggedInUserModel.Id);
             Users = await _projectEndpoint.GetProjectUsers(ProjectModel.Id);
             Tasks = await _projectEndpoint.GetProjectTasks(ProjectModel.Id);
+        }
+
+        public async Task CreateTask()
+        {
+            var cte = new CreateTaskEvent
+            {
+                ProjectModel = ProjectModel
+            };
+
+            await _events.PublishOnCurrentThreadAsync(cte);
         }
     }
 }

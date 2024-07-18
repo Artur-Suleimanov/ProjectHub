@@ -101,5 +101,27 @@ namespace PHDesktopUI.Librery.Api
                 }
             }
         }
+
+        public async Task CreateTask(string name, string description, 
+            string initiatorId, string executorId, int projectId, int stateId)
+        {
+            var data = new FormUrlEncodedContent(
+                [
+                    new KeyValuePair<string, string>("name", name),
+                    new KeyValuePair<string, string>("description", description),
+                    new KeyValuePair<string, string>("initiatorId", initiatorId),
+                    new KeyValuePair<string, string>("executorId", executorId),
+                    new KeyValuePair<string, string>("projectId", projectId.ToString()),
+                    new KeyValuePair<string, string>("stateId", stateId.ToString())
+                ]);
+
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.PostAsync($"/api/Project/CreateTask", data))
+            {
+                if(response.IsSuccessStatusCode == false)
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
     }
 }

@@ -84,5 +84,23 @@ namespace PHApi.Controllers
         {
             return _projectData.GetProjectTasks(projectId);
         }
+
+        [HttpPost]
+        [Route("CreateTask")]
+        public void CreateTask()
+        {
+            var form = Request.Form;
+
+            // Получение отдельных данных:
+            var name = form["name"].ToString();
+            var description = form["description"].ToString();
+            var initiatorId = form["initiatorId"].ToString();
+            var executorId = form["executorId"].ToString();
+            var projectId = int.Parse(form["projectId"]);
+            var stateId = int.Parse(form["stateId"]);
+
+            _projectData.CreateTask(name, description, initiatorId, executorId, projectId, stateId);
+
+        }
     }
 }

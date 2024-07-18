@@ -79,5 +79,10 @@ namespace PHDataManager.Library.DataAccess
         {
             _sql.SaveData("spTransferTasksToNewExecuter", new { ProjectId = projectId, OldExecuterId = oldUserId, NewExecuterId = newUserId }, "PHData");
         }
+
+        public void CreateTask(string name, string description, string initiatorId, string executorId, int projectId, int stateId)
+        {
+            _sql.SaveData("spCreateTask", new { Name = name, Description = description, InitiatorId = initiatorId, ExecutorId = executorId, ProjectId = projectId, StateId = stateId }, "PHData");
+        }
     }
 }

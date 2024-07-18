@@ -12,7 +12,8 @@ using PHDesktopUI.Views;
 namespace PHDesktopUI.ViewModels
 {
     public class ShellViewModel : Conductor<object>, IHandle<LogOnEvent>, IHandle<CreateProjectEvent>, 
-        IHandle<ShowHomePageEvent>, IHandle<OpenProjectEvent>, IHandle<AddUserInProjectEvent>
+        IHandle<ShowHomePageEvent>, IHandle<OpenProjectEvent>, IHandle<AddUserInProjectEvent>,
+        IHandle<CreateTaskEvent>
     {
         private readonly IEventAggregator _events;
         private readonly ILoggedInUserModel _user;
@@ -55,8 +56,9 @@ namespace PHDesktopUI.ViewModels
         {
             var pvm = IoC.Get<ProjectViewModel>();
             pvm.ProjectModel = message.ProjectModel;
+            pvm.ProjectModel.Users = await _projectEndpoint.GetProjectUsers(message.ProjectModel.Id);
             pvm.Tasks = message.ProjectModel.Tasks;
-            pvm.Users = await _projectEndpoint.GetProjectUsers(message.ProjectModel.Id);
+            pvm.Users = pvm.ProjectModel.Users;
             await ActivateItemAsync(pvm, cancellationToken);
         }
 
@@ -65,6 +67,14 @@ namespace PHDesktopUI.ViewModels
             var auipv = IoC.Get<AddUserInProjectViewModel>();
             auipv.Project = message.Project;
             await ActivateItemAsync(auipv, cancellationToken);
+        }
+
+        public async Task HandleAsync(CreateTaskEvent message, CancellationToken cancellationToken)
+        {
+            var ctvm = IoC.Get<CreateTaskViewModel>();
+            ctvm.ProjectModel = message.ProjectModel;
+            ctvm.Users = message.ProjectModel.Users;
+            await ActivateItemAsync(ctvm, cancellationToken);
         }
     }
 }
