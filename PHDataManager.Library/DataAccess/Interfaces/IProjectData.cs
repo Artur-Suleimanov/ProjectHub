@@ -7,6 +7,7 @@ namespace PHDataManager.Library.DataAccess.Interfaces
         void AddUserInProject(int projectId, string userId, int roleId);
         ProjectModel CreateNewProject(string userId, string name, string description);
         void CreateTask(string name, string description, string initiatorId, string executorId, int projectId, int stateId);
+        void DeleteTask(int taskId);
         void DeleteUserInProject(int projectId, string userId);
         List<ProjectModel> GetProjectsByUserId(string id);
         List<TaskModel> GetProjectTasks(int projectId);

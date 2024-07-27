@@ -1,5 +1,6 @@
 ﻿using PHDataManager.Library.DataAccess.Interfaces;
 using PHDataManager.Library.Models;
+using System.Threading.Tasks;
 
 namespace PHDataManager.Library.DataAccess
 {
@@ -83,6 +84,11 @@ namespace PHDataManager.Library.DataAccess
         public void CreateTask(string name, string description, string initiatorId, string executorId, int projectId, int stateId)
         {
             _sql.SaveData("spCreateTask", new { Name = name, Description = description, InitiatorId = initiatorId, ExecutorId = executorId, ProjectId = projectId, StateId = stateId }, "PHData");
+        }
+
+        public void DeleteTask(int taskId)
+        {
+            _sql.SaveData("spDeleteTask", new { TaskId = taskId }, "PHData");
         }
     }
 }

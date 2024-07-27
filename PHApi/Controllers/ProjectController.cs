@@ -102,5 +102,12 @@ namespace PHApi.Controllers
             _projectData.CreateTask(name, description, initiatorId, executorId, projectId, stateId);
 
         }
+
+        [HttpDelete]
+        [Route("DeleteTask/{taskId}")]
+        public void DeleteTask(int taskId)
+        {
+            _projectData.DeleteTask(taskId);
+        }
     }
 }

@@ -35,15 +35,16 @@ namespace PHDesktopUI.ViewModels
 			}
 		}
 
-		private Task _selectedTask;
+		private TaskModel _selectedTask;
 
-		public Task SelectedTask
+		public TaskModel SelectedTask
         {
 			get { return _selectedTask; }
 			set 
 			{ 
 				_selectedTask = value;
                 NotifyOfPropertyChange(() => SelectedTask);
+                NotifyOfPropertyChange(() => CanDeleteTask);
             }
 		}
 
@@ -116,6 +117,26 @@ namespace PHDesktopUI.ViewModels
             };
 
             await _events.PublishOnCurrentThreadAsync(cte);
+        }
+
+        public bool CanDeleteTask
+        {
+            get
+            {
+                bool output = true;
+
+                if(SelectedTask == null)
+                    output = false;
+
+                return output;
+            }
+        }
+
+        public async Task DeleteTask()
+        {
+            await _projectEndpoint.DeleteTask((int)SelectedTask.Id!);
+            ProjectModel.Tasks = await _projectEndpoint.GetProjectTasks(ProjectModel.Id);
+            Tasks = ProjectModel.Tasks;
         }
     }
 }

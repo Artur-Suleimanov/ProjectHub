@@ -123,5 +123,14 @@ namespace PHDesktopUI.Librery.Api
                 }
             }
         }
+
+        public async Task DeleteTask(int taskId)
+        {
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.DeleteAsync(($"/api/Project/DeleteTask/{taskId}")))
+            {
+                if (response.IsSuccessStatusCode == false)
+                    throw new Exception(response.ReasonPhrase);
+            }
+        }
     }
 }
