@@ -42,7 +42,8 @@ namespace PHDesktopUI
         {
             _container.Instance(_container)
                 .PerRequest<IProjectEndpoint, ProjectEndpoint>()
-                .PerRequest<IUserEndpoint, UserEndpoint>();
+                .PerRequest<IUserEndpoint, UserEndpoint>()
+                .PerRequest<ITaskEndpoint, TaskEndpoint>();
 
             _container
                 .Singleton<IWindowManager, WindowManager>()

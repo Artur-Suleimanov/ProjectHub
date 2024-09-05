@@ -10,6 +10,7 @@
     [CreateDate] DATETIME2 NOT NULL DEFAULT getutcdate()
 
     FOREIGN KEY ([ProjectId]) REFERENCES [dbo].[Project] ([Id]),
+    [SolutionText] NVARCHAR(MAX) NULL, 
     FOREIGN KEY ([InitiatorId]) REFERENCES [dbo].[User] ([Id]),
     FOREIGN KEY ([ExecutorId]) REFERENCES [dbo].[User] ([Id]),
 	FOREIGN KEY ([StateId]) REFERENCES [dbo].[TaskState] ([Id]),

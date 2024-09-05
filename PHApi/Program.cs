@@ -30,6 +30,7 @@ namespace PHApi
             builder.Services.AddTransient<ISqlDataAccess, SqlDataAccess>();
             builder.Services.AddTransient<IUserData, UserData>();
             builder.Services.AddTransient<IProjectData, ProjectData>();
+            builder.Services.AddTransient<ITaskData, TaskData>();
 
             builder.Services.AddAuthentication(options =>
             {

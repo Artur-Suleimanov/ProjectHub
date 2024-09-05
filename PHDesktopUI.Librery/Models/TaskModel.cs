@@ -12,5 +12,6 @@
         public int? StateId { get; set; }
         public string? State { get; set; }
         public DateTime? CreateDate { get; set; }
+        public string? SolutionText { get; set; }
     }
 }

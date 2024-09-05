@@ -8,12 +8,13 @@ using PHDesktopUI.EventModels;
 using PHDesktopUI.Librery.Api;
 using PHDesktopUI.Librery.Models;
 using PHDesktopUI.Views;
+using static PHDesktopUI.ViewModels.TaskTestViewModel;
 
 namespace PHDesktopUI.ViewModels
 {
     public class ShellViewModel : Conductor<object>, IHandle<LogOnEvent>, IHandle<CreateProjectEvent>, 
         IHandle<ShowHomePageEvent>, IHandle<OpenProjectEvent>, IHandle<AddUserInProjectEvent>,
-        IHandle<CreateTaskEvent>
+        IHandle<CreateTaskEvent>, IHandle<OpenTaskEvent>, IHandle<TaskTestViewEvent>
     {
         private readonly IEventAggregator _events;
         private readonly ILoggedInUserModel _user;
@@ -75,6 +76,36 @@ namespace PHDesktopUI.ViewModels
             ctvm.ProjectModel = message.ProjectModel;
             ctvm.Users = message.ProjectModel.Users;
             await ActivateItemAsync(ctvm, cancellationToken);
+        }
+
+        public async Task HandleAsync(OpenTaskEvent message, CancellationToken cancellationToken)
+        {
+            var tvm = IoC.Get<TaskViewModel>();
+            tvm.TaskModel = message.TaskModel;
+            tvm.Users = message.Project.Users;
+            tvm.States = message.States;
+            tvm.TaskDescription = message.TaskModel.Description;
+            tvm.TaskName = message.TaskModel.Name;
+            await ActivateItemAsync(tvm, cancellationToken);
+        }
+
+        public async Task HandleAsync(TaskTestViewEvent message, CancellationToken cancellationToken)
+        {
+            var tvm = IoC.Get<TaskTestViewModel>();
+            tvm.TaskModel = message.TaskModel;
+            tvm.Users = message.Project.Users;
+            tvm.States = message.States;
+            tvm.TaskDescription = message.TaskModel.Description;
+            tvm.TaskName = message.TaskModel.Name;
+
+            if(string.IsNullOrWhiteSpace(message.TaskModel.SolutionText) == false)
+            {
+                var solutionTestFromTask = message.TaskModel.SolutionText.Replace(@"\", "").TrimStart('"').TrimEnd('"');
+
+                tvm.SolutionText = solutionTestFromTask;
+            }
+
+            await ActivateItemAsync(tvm, cancellationToken);
         }
     }
 }

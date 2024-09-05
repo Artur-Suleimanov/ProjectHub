@@ -9,6 +9,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Views\disk.png" />
+    <None Remove="Views\folder.png" />
+    <None Remove="Views\text_bold.png" />
+    <None Remove="Views\text_italic.png" />
+    <None Remove="Views\text_underline.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Caliburn.Micro" Version="4.0.212" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.1" />
@@ -27,6 +35,14 @@
 
   <ItemGroup>
     <Folder Include="Models\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Views\disk.png" />
+    <Resource Include="Views\folder.png" />
+    <Resource Include="Views\text_bold.png" />
+    <Resource Include="Views\text_italic.png" />
+    <Resource Include="Views\text_underline.png" />
   </ItemGroup>
 
 </Project>

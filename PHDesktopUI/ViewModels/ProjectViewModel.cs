@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace PHDesktopUI.ViewModels
 {
@@ -14,11 +15,13 @@ namespace PHDesktopUI.ViewModels
     {
         public ProjectViewModel(IEventAggregator events,
                                 IProjectEndpoint projectEndpoint,
-                                ILoggedInUserModel loggedInUserModel)
+                                ILoggedInUserModel loggedInUserModel,
+                                ITaskEndpoint taskEndpoint)
         {
             _events = events;
             _projectEndpoint = projectEndpoint;
             _loggedInUserModel = loggedInUserModel;
+            _taskEndpoint = taskEndpoint;
         }
 
         public ProjectModel ProjectModel { get; set; }
@@ -45,6 +48,7 @@ namespace PHDesktopUI.ViewModels
 				_selectedTask = value;
                 NotifyOfPropertyChange(() => SelectedTask);
                 NotifyOfPropertyChange(() => CanDeleteTask);
+                NotifyOfPropertyChange(() => CanOpenTask);
             }
 		}
 
@@ -52,6 +56,7 @@ namespace PHDesktopUI.ViewModels
         private readonly IEventAggregator _events;
         private readonly IProjectEndpoint _projectEndpoint;
         private readonly ILoggedInUserModel _loggedInUserModel;
+        private readonly ITaskEndpoint _taskEndpoint;
 
         public List<UserModel> Users
 		{
@@ -137,6 +142,49 @@ namespace PHDesktopUI.ViewModels
             await _projectEndpoint.DeleteTask((int)SelectedTask.Id!);
             ProjectModel.Tasks = await _projectEndpoint.GetProjectTasks(ProjectModel.Id);
             Tasks = ProjectModel.Tasks;
+        }
+
+        public bool CanOpenTask
+        {
+            get
+            {
+                bool output = true;
+
+                if (SelectedTask == null)
+                    output = false;
+
+                return output;
+            }
+        }
+
+        public async Task OpenTask()
+        {
+            var states = await _taskEndpoint.GetAllStates();
+
+            var solutionText = await _taskEndpoint.GetSolutionText(SelectedTask.Id);
+
+            //XmlDocument xml = new XmlDocument();
+            //xml.StartsWith();
+
+            //string _byteOrderMarkUtf8 = Encoding.UTF8.GetString(Encoding.UTF8.GetPreamble());
+            //if (xml.StartsWith(_byteOrderMarkUtf8))
+            //{
+            //    xml = xml.Remove(0, _byteOrderMarkUtf8.Length);
+            //}
+
+            SelectedTask.SolutionText = solutionText;
+
+            //await _events.PublishOnCurrentThreadAsync(new OpenTaskEvent() { 
+            //    TaskModel = SelectedTask,
+            //    Project = ProjectModel,
+            //    States = states,
+            //});
+            await _events.PublishOnCurrentThreadAsync(new TaskTestViewEvent()
+            {
+                TaskModel = SelectedTask,
+                Project = ProjectModel,
+                States = states,
+            });
         }
     }
 }
