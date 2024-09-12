@@ -186,5 +186,10 @@ namespace PHDesktopUI.ViewModels
                 States = states,
             });
         }
+
+        public async Task Back()
+        {
+            await _events.PublishOnCurrentThreadAsync(new ShowHomePageEvent());
+        }
     }
 }

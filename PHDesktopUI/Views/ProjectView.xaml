@@ -65,6 +65,7 @@
             <Button x:Name="CreateTask" FontSize="14" Content="Создать задачу" Margin="0 0 10 0"/>
             <Button x:Name="OpenTask" FontSize="14" Content="Открыть задачу" Margin="0 0 10 0"/>
             <Button x:Name="DeleteTask" FontSize="14" Content="Удалить задачу" Margin="0 0 10 0"/>
+            <Button x:Name="Back" FontSize="14" MinWidth="100" Content="Назад" Margin="0 0 10 0"/>
         </StackPanel>
     </Grid>
 </UserControl>

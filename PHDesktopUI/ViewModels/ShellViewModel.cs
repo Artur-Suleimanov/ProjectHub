@@ -93,6 +93,7 @@ namespace PHDesktopUI.ViewModels
         {
             var tvm = IoC.Get<TaskTestViewModel>();
             tvm.TaskModel = message.TaskModel;
+            tvm.ProjectModel = message.Project;
             tvm.Users = message.Project.Users;
             tvm.States = message.States;
             tvm.TaskDescription = message.TaskModel.Description;

@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using PHDesktopUI.EventModels;
 using PHDesktopUI.Librery.Api;
 using PHDesktopUI.Librery.Models;
 using System;
@@ -22,6 +23,7 @@ namespace PHDesktopUI.ViewModels
         private string _solutionText;
         private readonly IEventAggregator _events;
         private readonly ITaskEndpoint _taskEndpoint;
+        private ProjectModel _projectModel;
 
         public string SolutionText
         {
@@ -35,15 +37,24 @@ namespace PHDesktopUI.ViewModels
             }
         }
 
-        public TaskTestViewModel(ITaskEndpoint taskEndpoint)
+        public TaskTestViewModel(ITaskEndpoint taskEndpoint,
+                                 IEventAggregator events)
         {
             _taskEndpoint = taskEndpoint;
+            _events = events;
             //_solutionText = "<FlowDocument PagePadding=\"5,0,5,0\" AllowDrop=\"True\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\"><Paragraph><Run xml:lang=\"ru-ru\">текст</Run></Paragraph></FlowDocument>";
         }
 
         public TaskTestViewModel()
         {
         }
+
+        public ProjectModel ProjectModel
+        {
+            get { return _projectModel; }
+            set { _projectModel = value; }
+        }
+
 
         public TaskModel TaskModel
         {
@@ -139,8 +150,12 @@ namespace PHDesktopUI.ViewModels
 
         public async Task Back()
         {
+            var ope = new OpenProjectEvent()
+            {
+                ProjectModel = ProjectModel
+            };
+
+            await _events.PublishOnCurrentThreadAsync(ope);
         }
-
-
     }
 }
