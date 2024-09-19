@@ -31,7 +31,7 @@ namespace PHDesktopUI.ViewModels
 
         private async Task LoadProjects()
         {
-            var projects = await _projectEndpoint.GetAll();
+            var projects = await _projectEndpoint.GetProjectsByUserId();
             Projects = new BindingList<ProjectModel>(projects);
         }
 

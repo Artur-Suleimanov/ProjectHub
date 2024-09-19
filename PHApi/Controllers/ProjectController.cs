@@ -29,8 +29,30 @@ namespace PHApi.Controllers
                 throw new Exception("Cannot get Authorized User");
             }
 
+            return _projectData.GetProjectsWhereUserIsInitiator(userId);
+        }
+
+        [HttpGet]
+        [Route("GetProjectById/{id}")]
+        public ProjectModel GetProjectById(int id) 
+        {
+            return _projectData.GetProjectById(id);
+        }
+
+        [HttpGet]
+        [Route("GetProjectsByUserId")]
+        public List<ProjectModel> GetProjectsByUserId()
+        {
+            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                throw new Exception("Cannot get Authorized User");
+            }
+
             return _projectData.GetProjectsByUserId(userId);
         }
+
 
         [HttpPost]
         [Route("CreateProject")]

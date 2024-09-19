@@ -144,7 +144,7 @@ namespace PHDesktopUI.ViewModels
         {
             try
             {
-                await _projectEndpoint.AddUserInProject(Project.Id, SelectedUser.Id, 1);
+                await _projectEndpoint.AddUserInProject(Project.Id, SelectedUser.Id, 2);
                 await OpenProjectViewModel();
             }
             catch (Exception ex) 

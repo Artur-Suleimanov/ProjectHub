@@ -10,6 +10,8 @@ namespace PHDesktopUI.Librery.Api
         Task DeleteTask(int taskId);
         Task DeleteUserFromProject(int projectId, string oldUserId, string newUserId);
         Task<List<ProjectModel>> GetAll();
+        Task<ProjectModel> GetProjectById(int id);
+        Task<List<ProjectModel>> GetProjectsByUserId();
         Task<List<TaskModel>> GetProjectTasks(int projectId);
         Task<List<UserModel>> GetProjectUsers(int id);
     }

@@ -71,7 +71,8 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
-                <TextBox x:Name="TaskDescription" Grid.Column="1" Grid.Row="1" Grid.RowSpan="4" Margin="20 10 0 0"
+                <TextBox x:Name="TaskDescription" IsEnabled="{Binding IsTextBoxEnabled}" 
+                         Grid.Column="1" Grid.Row="1" Grid.RowSpan="4" Margin="20 10 0 0"
   MinWidth="500" MinHeight="200" TextWrapping="Wrap" AcceptsReturn="True" />
             </Grid>
         </StackPanel>
@@ -99,7 +100,7 @@
     <ComboBox Name="cmbFontSize" Width="50" IsEditable="True" TextBoxBase.TextChanged="cmbFontSize_TextChanged" />
             </ToolBar>
 
-            <RichTextBox Name="rtf" local:RichTextBoxHelper.DocumentXaml="{Binding SolutionText}" Width="750" />
+            <RichTextBox Name="rtf" local:RichTextBoxHelper.DocumentXaml="{Binding SolutionText}" Width="750" IsEnabled="{Binding IsTextBoxEnabled}" />
 
         </DockPanel>
 

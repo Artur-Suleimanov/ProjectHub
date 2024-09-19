@@ -65,10 +65,23 @@ namespace PHDesktopUI.ViewModels
 			{ 
 				_users = value;
                 NotifyOfPropertyChange(() => Users);
+                NotifyOfPropertyChange(() => CanAddUser);
             }
 		}
 
-		public async Task AddUser()
+        public bool CanAddUser
+        {
+            get
+            {
+                if (_loggedInUserModel.Id == ProjectModel.UserId)
+                    return true;
+
+                return false;
+            }
+            
+        }
+
+        public async Task AddUser()
 		{
             var auipe = new AddUserInProjectEvent
             {
@@ -128,10 +141,19 @@ namespace PHDesktopUI.ViewModels
         {
             get
             {
-                bool output = true;
+                bool output = false;
 
                 if(SelectedTask == null)
                     output = false;
+                else
+                {
+                    if (_loggedInUserModel.Id == ProjectModel.UserId)
+                        output = true;
+                    else if(_loggedInUserModel.Id == SelectedTask.InitiatorId)
+                    {
+                        output = true;
+                    }
+                }
 
                 return output;
             }

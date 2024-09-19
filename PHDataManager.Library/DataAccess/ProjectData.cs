@@ -16,7 +16,7 @@ namespace PHDataManager.Library.DataAccess
             _userData = userData;
         }
 
-        public List<ProjectModel> GetProjectsByUserId(string id)
+        public List<ProjectModel> GetProjectsWhereUserIsInitiator(string id)
         {
             var output = _sql.LoadData<ProjectModel, dynamic>("dbo.spGetProjectsWhereUserIsInitiator", new { Id = id }, "PHData");
 
@@ -31,6 +31,37 @@ namespace PHDataManager.Library.DataAccess
             }
 
             return output;
+        }
+
+        public List<ProjectModel> GetProjectsByUserId(string id)
+        {
+            var output = _sql.LoadData<ProjectModel, dynamic>("dbo.spGetProjectsByUserId", new { Id = id }, "PHData");
+
+            foreach (var project in output)
+            {
+                project.Tasks = GetProjectTasks((int)project.Id!);
+
+                if (project.Tasks == null)
+                    continue;
+
+                GetTasksExecuters(project.Tasks);
+            }
+
+            return output;
+        }
+
+        public ProjectModel GetProjectById(int id)
+        {
+            var projects = _sql.LoadData<ProjectModel, dynamic>("dbo.spGetProjectById", new { Id = id }, "PHData");
+
+            var project = projects[0];
+
+            project.Tasks = GetProjectTasks((int)project.Id!);
+
+            if (project.Tasks != null)
+                GetTasksExecuters(project.Tasks);
+
+            return project;
         }
 
         private void GetTasksExecuters(List<TaskModel> tasks)

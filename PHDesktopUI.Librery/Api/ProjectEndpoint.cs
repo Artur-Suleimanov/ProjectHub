@@ -28,6 +28,39 @@ namespace PHDesktopUI.Librery.Api
             }
         }
 
+        public async Task<List<ProjectModel>> GetProjectsByUserId()
+        {
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("/api/Project/GetProjectsByUserId"))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsAsync<List<ProjectModel>>();
+                    return result;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
+        public async Task<ProjectModel> GetProjectById(int id)
+        {
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync($"/api/Project/GetProjectById/{id}"))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsAsync<ProjectModel>();
+
+                    return result;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
         public async Task CreateProject(CreateProjectModel createProjectModel)
         {
             using (HttpResponseMessage response = await _apiHelper.ApiClient.PostAsJsonAsync("/api/Project/CreateProject", createProjectModel))

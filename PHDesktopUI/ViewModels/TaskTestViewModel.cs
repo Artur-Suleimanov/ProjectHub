@@ -22,6 +22,8 @@ namespace PHDesktopUI.ViewModels
         private string _taskName;
         private string _solutionText;
         private readonly IEventAggregator _events;
+        private readonly ILoggedInUserModel _loggedInUserModel;
+        private readonly IProjectEndpoint _projectEndpoint;
         private readonly ITaskEndpoint _taskEndpoint;
         private ProjectModel _projectModel;
 
@@ -38,10 +40,14 @@ namespace PHDesktopUI.ViewModels
         }
 
         public TaskTestViewModel(ITaskEndpoint taskEndpoint,
-                                 IEventAggregator events)
+                                 IEventAggregator events,
+                                 ILoggedInUserModel loggedInUserModel,
+                                 IProjectEndpoint projectEndpoint)
         {
             _taskEndpoint = taskEndpoint;
             _events = events;
+            _loggedInUserModel = loggedInUserModel;
+            _projectEndpoint = projectEndpoint;
             //_solutionText = "<FlowDocument PagePadding=\"5,0,5,0\" AllowDrop=\"True\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\"><Paragraph><Run xml:lang=\"ru-ru\">текст</Run></Paragraph></FlowDocument>";
         }
 
@@ -91,6 +97,25 @@ namespace PHDesktopUI.ViewModels
             }
         }
 
+        private bool _isTextBoxEnabled;
+
+        public bool IsTextBoxEnabled
+        {
+            get 
+            {
+                bool output = true;
+
+                if (_loggedInUserModel != null && _taskModel != null)
+                {
+                    if (_loggedInUserModel.Id != _taskModel.InitiatorId)
+                        output = false;
+                }
+                
+                return output;
+            }
+            
+        }
+
         public string TaskDescription
         {
             get { return _taskDescription; }
@@ -120,7 +145,7 @@ namespace PHDesktopUI.ViewModels
             {
                 _selectedState = value;
                 _taskModel.State = _selectedState.Name;
-                
+                _taskModel.StateId = _selectedState.Id;
 ;
                 NotifyOfPropertyChange(() => SelectedState);
             }
@@ -138,21 +163,23 @@ namespace PHDesktopUI.ViewModels
 
         public void OnLayoutUpdated()
         {
-            SelectedUser = TaskModel.Executor;
-            NotifyOfPropertyChange(() => SelectedUser);
+            //SelectedUser = TaskModel.Executor;
+            //NotifyOfPropertyChange(() => SelectedUser);
         }
 
         public async Task Save()
         {
             await _taskEndpoint.UpdateTask(_taskModel);
+            NotifyOfPropertyChange(() => IsTextBoxEnabled);
         }
 
 
         public async Task Back()
         {
+
             var ope = new OpenProjectEvent()
             {
-                ProjectModel = ProjectModel
+                ProjectModel = await _projectEndpoint.GetProjectById(_projectModel.Id)
             };
 
             await _events.PublishOnCurrentThreadAsync(ope);
