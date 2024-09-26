@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using Caliburn.Micro;
 using PHDesktopUI.EventModels;
 using PHDesktopUI.Librery.Api;
@@ -36,9 +37,35 @@ namespace PHDesktopUI.ViewModels
 
         }
 
+        public async Task ExitApplication()
+        {
+           await TryCloseAsync();
+        }
+
+        public async Task LogOut()
+        {
+            _user.ResetUserModel();
+            await ActivateItemAsync(IoC.Get<LoginViewModel>());
+            NotifyOfPropertyChange(() => IsLoggedIn);
+        }
+
+        public bool IsLoggedIn
+        {
+            get
+            {
+                bool output = false;
+
+                if (string.IsNullOrWhiteSpace(_user.Token) == false)
+                    output = true;
+
+                return output;
+            }
+        }
+
         public async Task HandleAsync(LogOnEvent message, CancellationToken cancellationToken)
         {
             await ActivateItemAsync(IoC.Get<HomeViewModel>(), cancellationToken);
+            NotifyOfPropertyChange(() => IsLoggedIn);
             //NotifyOfPropertyChange(() => IsLoggedIn);
             //NotifyOfPropertyChange(() => IsLoggedOut);
         }
