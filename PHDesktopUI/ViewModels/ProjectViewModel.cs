@@ -109,20 +109,50 @@ namespace PHDesktopUI.ViewModels
         {
             get
             {
-                bool output = true;
+                //bool output = true;
+
+                //if (SelectedUser == null)
+                //    output = false;
+                //else if(SelectedUser.Id == ProjectModel.UserId)
+                //    output = false;
+                //else if(_loggedInUserModel.Id != ProjectModel.UserId
+                //    && _loggedInUserModel.Id == SelectedUser.Id)
+                //{
+
+                //}
+
 
                 if (SelectedUser == null)
-                    output = false;
-                else if(SelectedUser.Id == ProjectModel.UserId)
-                    output = false;
-                    
-                return output;
+                    return false;
+
+                if (SelectedUser.Id == ProjectModel.UserId)
+                    return false;
+
+                if (_loggedInUserModel.Id != ProjectModel.UserId)
+                {
+                    if(_loggedInUserModel.Id == SelectedUser.Id)
+                        return true;
+                    else
+                        return false;
+                }
+
+                return true;
+
+                    //return output;
             }
         }
 
         public async Task RemoveUser()
         {
-            await _projectEndpoint.DeleteUserFromProject(ProjectModel.Id, SelectedUser.Id, _loggedInUserModel.Id);
+            if(_loggedInUserModel.Id != SelectedUser.Id)
+                await _projectEndpoint.DeleteUserFromProject(ProjectModel.Id, SelectedUser.Id, _loggedInUserModel.Id);
+            else
+            {
+                await _projectEndpoint.DeleteUserFromProject(ProjectModel.Id, SelectedUser.Id, ProjectModel.UserId);
+                await Back();
+            }
+                
+
             Users = await _projectEndpoint.GetProjectUsers(ProjectModel.Id);
             Tasks = await _projectEndpoint.GetProjectTasks(ProjectModel.Id);
         }

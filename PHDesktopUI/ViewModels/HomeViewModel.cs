@@ -15,13 +15,16 @@ namespace PHDesktopUI.ViewModels
     {
         private readonly IProjectEndpoint _projectEndpoint;
         private readonly IEventAggregator _events;
+        private readonly ILoggedInUserModel _loggedInUserModel;
 
         // Sales Page Creation - A TimCo Retail Manager Video
         public HomeViewModel(IProjectEndpoint projectEndpoint,
-                             IEventAggregator events)
+                             IEventAggregator events,
+                             ILoggedInUserModel loggedInUserModel)
         {
             _projectEndpoint = projectEndpoint;
             _events = events;
+            _loggedInUserModel = loggedInUserModel;
         }
 
         protected override async void OnViewLoaded(object view)
@@ -126,6 +129,27 @@ namespace PHDesktopUI.ViewModels
             var ope = new OpenProjectEvent();
             ope.ProjectModel = _selectedProject;
             await _events.PublishOnUIThreadAsync(ope);
+        }
+
+        public bool CanDeleteProject
+        {
+            get
+            {
+                bool output = false;
+
+                if (_selectedProject != null && _selectedProject.UserId == _loggedInUserModel.Id)
+                {
+                    output = true;
+                }
+
+                return output;
+            }
+        }
+
+        public async Task DeleteProject()
+        {
+            await _projectEndpoint.DeleteProject(SelectedProject.Id);
+            await LoadProjects();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PHDataManager.Library.DataAccess;
 using PHDataManager.Library.DataAccess.Interfaces;
 using PHDataManager.Library.Models;
 using System.Security.Claims;
@@ -130,6 +131,27 @@ namespace PHApi.Controllers
         public void DeleteTask(int taskId)
         {
             _projectData.DeleteTask(taskId);
+        }
+
+        [HttpDelete]
+        [Route("DeleteProject/{projectId}")]
+        public void DeleteProject(int projectId) 
+        {
+            var project = _projectData.GetProjectById(projectId);
+
+            var users = _projectData.GetProjectUsers(projectId);
+
+            users.Remove(users.First(u => u.Id == project.UserId));
+
+            foreach (var user in users)
+                _projectData.DeleteUserInProject(projectId, user.Id!);
+
+            foreach (var task in project.Tasks)
+                _projectData.DeleteTask((int)task.Id!);
+
+            _projectData.DeleteUserInProject(projectId, project.UserId!);
+
+            _projectData.DeleteProject(projectId);
         }
     }
 }

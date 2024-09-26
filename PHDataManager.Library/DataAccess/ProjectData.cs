@@ -121,5 +121,10 @@ namespace PHDataManager.Library.DataAccess
         {
             _sql.SaveData("spDeleteTask", new { TaskId = taskId }, "PHData");
         }
+
+        public void DeleteProject(int projectId)
+        {
+            _sql.SaveData("spDeleteProject", new { ProjectId = projectId }, "PHData");
+        }
     }
 }

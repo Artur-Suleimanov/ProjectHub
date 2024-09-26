@@ -89,6 +89,7 @@
     <Build Include="dbo\Stored Procedures\spGetTaskSolutionText.sql" />
     <Build Include="dbo\Stored Procedures\spGetProjectsByUserId.sql" />
     <Build Include="dbo\Stored Procedures\spGetProjectById.sql" />
+    <Build Include="dbo\Stored Procedures\spDeleteProject.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="PHData.refactorlog" />

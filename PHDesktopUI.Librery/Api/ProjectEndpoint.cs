@@ -165,5 +165,14 @@ namespace PHDesktopUI.Librery.Api
                     throw new Exception(response.ReasonPhrase);
             }
         }
+
+        public async Task DeleteProject(int projectId)
+        {
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.DeleteAsync($"/api/Project/DeleteProject/{projectId}"))
+            {
+                if (response.IsSuccessStatusCode == false)
+                    throw new Exception(response.ReasonPhrase);
+            }
+        }
     }
 }
