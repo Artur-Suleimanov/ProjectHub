@@ -1,6 +1,7 @@
 ﻿using Caliburn.Micro;
 using PHDesktopUI.EventModels;
 using PHDesktopUI.Helpers;
+using PHDesktopUI.Librery.Functions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,12 @@ namespace PHDesktopUI.ViewModels
     public class LoginViewModel : Screen
     {
         public LoginViewModel(IAPIHelper aPIHelper,
-                              IEventAggregator events)
+                              IEventAggregator events,
+                              ILogin login)
         {
             _apiHelper = aPIHelper;
             _events = events;
+            _login = login;
         }
 
         private string? _userName = "artur@mail.ru";
@@ -34,12 +37,14 @@ namespace PHDesktopUI.ViewModels
                 else _userName = value;
 
                 NotifyOfPropertyChange(() => UserName);
-			}
+                NotifyOfPropertyChange(() => CanLogIn);
+            }
 		}
 
         private string? _password = "2897qlepS!";
         private readonly IAPIHelper _apiHelper;
         private readonly IEventAggregator _events;
+        private readonly ILogin _login;
 
         public string? Password
         {
@@ -106,18 +111,29 @@ namespace PHDesktopUI.ViewModels
             try
             {
                 ErrorMessage = string.Empty;
-                var result = await _apiHelper.Authenticate(_userName!, _password!);
-
-                // Capture more information about the user:
-                await _apiHelper.GetLoggedInUserInfo(result.Access_Token);
-
+                await _login.Run(_userName!, _password!);
                 await _events.PublishOnUIThreadAsync(new LogOnEvent());
             }
             catch (Exception ex)
             {
                 ErrorMessage = ex.Message;
             }
-           
+        }
+
+        //private async Task NewMethod()
+        //{
+        //    var result = await _apiHelper.Authenticate(_userName!, _password!);
+
+        //    // Capture more information about the user:
+        //    await _apiHelper.GetLoggedInUserInfo(result.Access_Token);
+
+        //    await _events.PublishOnUIThreadAsync(new LogOnEvent());
+        //}
+
+        public async Task SignUp()
+        {
+            await _events.PublishOnUIThreadAsync(new OpenSignupViewEvent());
+
         }
     }
 }

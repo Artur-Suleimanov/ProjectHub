@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using PHDesktopUI.Helpers;
 using PHDesktopUI.Librery.Api;
+using PHDesktopUI.Librery.Functions;
 using PHDesktopUI.Librery.Models;
 using PHDesktopUI.ViewModels;
 using System;
@@ -43,7 +44,8 @@ namespace PHDesktopUI
             _container.Instance(_container)
                 .PerRequest<IProjectEndpoint, ProjectEndpoint>()
                 .PerRequest<IUserEndpoint, UserEndpoint>()
-                .PerRequest<ITaskEndpoint, TaskEndpoint>();
+                .PerRequest<ITaskEndpoint, TaskEndpoint>()
+                .PerRequest<ILogin, Login>();
 
             _container
                 .Singleton<IWindowManager, WindowManager>()

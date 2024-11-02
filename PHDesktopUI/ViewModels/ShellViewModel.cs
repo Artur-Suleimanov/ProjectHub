@@ -15,7 +15,8 @@ namespace PHDesktopUI.ViewModels
 {
     public class ShellViewModel : Conductor<object>, IHandle<LogOnEvent>, IHandle<CreateProjectEvent>, 
         IHandle<ShowHomePageEvent>, IHandle<OpenProjectEvent>, IHandle<AddUserInProjectEvent>,
-        IHandle<CreateTaskEvent>, IHandle<OpenTaskEvent>, IHandle<TaskTestViewEvent>
+        IHandle<CreateTaskEvent>, IHandle<OpenTaskEvent>, IHandle<TaskTestViewEvent>, 
+        IHandle<OpenSignupViewEvent>, IHandle<OpenLogInViewEvent>
     {
         private readonly IEventAggregator _events;
         private readonly ILoggedInUserModel _user;
@@ -134,6 +135,16 @@ namespace PHDesktopUI.ViewModels
             }
 
             await ActivateItemAsync(tvm, cancellationToken);
+        }
+
+        public async Task HandleAsync(OpenSignupViewEvent message, CancellationToken cancellationToken)
+        {
+            await ActivateItemAsync(IoC.Get<SignupViewModel>(), cancellationToken);
+        }
+
+        public async Task HandleAsync(OpenLogInViewEvent message, CancellationToken cancellationToken)
+        {
+            await ActivateItemAsync(IoC.Get<LoginViewModel>(), cancellationToken);
         }
     }
 }

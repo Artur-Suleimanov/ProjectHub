@@ -43,5 +43,18 @@ namespace PHDesktopUI.Librery.Api
                 }
             }
         }
+
+        public async Task CreateUser(CreateUserModel model)
+        {
+            var data = new { model.FirstName, model.LastName, model.EmailAddress, model.Password };
+
+            using (HttpResponseMessage response = await _apIHelper.ApiClient.PostAsJsonAsync("/api/User/Register", data))
+            {
+                if (response.IsSuccessStatusCode == false) 
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
     }
 }
