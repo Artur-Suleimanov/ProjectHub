@@ -63,6 +63,7 @@ namespace PHDesktopUI.ViewModels
                 Tasks = new BindingList<TaskModel>(_selectedProject.Tasks);
                 NotifyOfPropertyChange(() => SelectedProject);
                 NotifyOfPropertyChange(() => CanOpenProject);
+                NotifyOfPropertyChange(() => CanDeleteProject);
             }
         }
 
@@ -150,6 +151,9 @@ namespace PHDesktopUI.ViewModels
         {
             await _projectEndpoint.DeleteProject(SelectedProject.Id);
             await LoadProjects();
+            Tasks.Clear();
+            ProjectDescription = string.Empty;
+            ProjectName = string.Empty;
         }
     }
 }
