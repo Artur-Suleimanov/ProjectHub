@@ -113,7 +113,6 @@ namespace PHDesktopUI.ViewModels
                 
                 return output;
             }
-            
         }
 
         public string TaskDescription

@@ -71,7 +71,6 @@ namespace PHDesktopUI.ViewModels
                 ErrorMessage = ex.Message;
                 Users = new BindingList<UserModel>();
             }
-            
         }
 
         public bool IsErrorVisible
@@ -151,7 +150,6 @@ namespace PHDesktopUI.ViewModels
             {
                 ErrorMessage = ex.Message;
             }
-            
         }
 
         public async Task Back()
