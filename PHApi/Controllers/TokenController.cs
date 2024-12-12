@@ -9,10 +9,11 @@ using System.Text;
 
 namespace PHApi.Controllers
 {
-    public class TokenController(ApplicationDbContext context, UserManager<IdentityUser> userManager) : Controller
+    public class TokenController(ApplicationDbContext context, UserManager<IdentityUser> userManager, IConfiguration configuration) : Controller
     {
         private readonly ApplicationDbContext _context = context;
         private readonly UserManager<IdentityUser> _userManager = userManager;
+        private readonly IConfiguration _configuration = configuration;
 
         [Route("/token")]
         [HttpPost]
@@ -48,10 +49,12 @@ namespace PHApi.Controllers
                 new(JwtRegisteredClaimNames.Exp, new DateTimeOffset(DateTime.Now.AddDays(1)).ToUnixTimeSeconds().ToString()),
             };
 
+            var key = _configuration.GetValue<string>("Secrets:SecurityKey");
+
             var token = new JwtSecurityToken(
                 new JwtHeader(
                     new SigningCredentials(
-                        new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MySecretKeyIsSecretSoDoNotTellAnINeed256bytePlease")),
+                        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)),
                         SecurityAlgorithms.HmacSha256)),
                 new JwtPayload(claims));
 
