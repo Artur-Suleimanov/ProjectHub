@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>aspnet-PHApi-5de17e32-2477-401b-a85e-26f1ddcc9fe1</UserSecretsId>
+    <Version>1.0.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
