@@ -36,6 +36,12 @@ namespace PHDesktopUI
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json");
 
+#if DEBUG
+            builder.AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true);
+#else
+            builder.AddJsonFile("appsettings.Prodaction.json", optional: true, reloadOnChange: true);
+#endif
+
             return builder.Build();
         }
 

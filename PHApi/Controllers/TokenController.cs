@@ -19,14 +19,22 @@ namespace PHApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(string username, string password)
         {
-            if(await IsValidUserNameAndPassword(username, password))
+            try
             {
-                return new ObjectResult(await GenerateToken(username));
+                if (await IsValidUserNameAndPassword(username, password))
+                {
+                    return new ObjectResult(await GenerateToken(username));
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
+            
         }
 
         private async Task<bool> IsValidUserNameAndPassword(string username, string password)

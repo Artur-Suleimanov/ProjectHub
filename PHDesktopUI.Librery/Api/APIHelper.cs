@@ -57,7 +57,16 @@ namespace PHDesktopUI.Helpers
                 }
                 else
                 {
-                    throw new Exception(response.ReasonPhrase);
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    if(string.IsNullOrWhiteSpace(errorContent) == false)
+                    {
+                        throw new Exception(errorContent);
+                    }
+                    else
+                    {
+                        throw new Exception(response.ReasonPhrase);
+                    }
+                    
                 }
             }
         }
